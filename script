@@ -1,0 +1,19 @@
+#Create a new folder
+New-Item -Path C:\Users\user\Desktop -Name NewFolder -ItemType Directory
+#Create 3 subfolders inside the new folder - red, green, blue
+mkdir NewFolder/red, NewFolder/green, NewFolder/blue
+#Create 50 .txt files starting from 01 to 50 per each color under the parent folder
+1..50 | % { "redFile{0:00}.txt" -f $_ } | % { New-Item -Path C:\Users\user\Desktop\NewFolder\ -ItemType File -Name $_ }
+1..50 | % { "blueFile{0:00}.txt" -f $_ } | % { New-Item -Path C:\Users\user\Desktop\NewFolder\ -ItemType File -Name $_ }
+1..50 | % { "greenFile{0:00}.txt" -f $_ } | % { New-Item -Path C:\Users\user\Desktop\NewFolder\ -ItemType File -Name $_ }
+#Move all of the created .txt files to their specific subfolder
+Move-Item -Path C:\Users\user\Desktop\NewFolder\redFile* -Destination C:\Users\user\Desktop\NewFolder\red\
+Move-Item -Path C:\Users\user\Desktop\NewFolder\blueFile* -Destination C:\Users\user\Desktop\NewFolder\blue\
+Move-Item -Path C:\Users\user\Desktop\NewFolder\greenFile* -Destination C:\Users\user\Desktop\NewFolder\green\
+#Remove all of the odd numbered redFiles from the red subfolder
+Remove-Item C:\Users\user\Desktop\NewFolder\red\*[13579].txt
+#Rename the blue folder and blueFiles to grey
+Get-ChildItem -Filter *blue* -Recurse | Rename-Item -NewName {$_.name -replace ‘blue’,’grey’}
+#Remove all of the files under the green folder
+Remove-Item C:\Users\user\Desktop\Newfolder\green\*
+
